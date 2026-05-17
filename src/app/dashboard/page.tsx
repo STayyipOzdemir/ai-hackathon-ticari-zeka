@@ -120,33 +120,48 @@ export default function DashboardPage() {
           />
 
           {persona && currentCampaigns && (
-            <div className="glass rounded-2xl p-5 border-accent/30">
+            <div className={`glass rounded-2xl p-5 ${persona.monthlyAdNetProfit < 0 ? "border-danger/40" : "border-accent/30"}`}>
               <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-accent">
-                <span>Ahmet abinin geçen ay verdiği reklamlar</span>
+                <span>{persona.monthlyAdNetProfit < 0 ? "⚠ " : ""}Ahmet abinin geçen ay reklamı — ÖZET</span>
               </div>
               <div className="mt-3 grid gap-3 md:grid-cols-4">
                 <Stat
-                  label="Aylık ciro"
-                  value={fmtTRY(persona.monthlyRevenue)}
-                  hint="Trendyol mağazası"
-                />
-                <Stat
                   label="Reklam harcaması"
                   value={fmtTRY(persona.monthlyAdSpend)}
-                  hint="bu ay"
+                  hint="bu ay toplam"
                 />
                 <Stat
                   label="Reklamdan ciro"
                   value={fmtTRY(persona.monthlyAdRevenue)}
-                  tone="success"
+                  hint={`ROAS ${persona.currentRoas.toFixed(2)}×`}
                 />
                 <Stat
-                  label="Mevcut ROI"
-                  value={`${persona.currentRoi.toFixed(2)}×`}
-                  hint="reklamdan dönen / harcanan"
-                  tone={persona.currentRoi >= 2 ? "success" : "warning"}
+                  label="Brüt kâr"
+                  value={fmtTRY(persona.monthlyAdGrossProfit)}
+                  hint={`marj %${Math.round(persona.currentMarginRate * 100)}`}
+                />
+                <Stat
+                  label="Net kâr (reklam sonrası)"
+                  value={fmtTRY(persona.monthlyAdNetProfit)}
+                  hint={
+                    persona.monthlyAdNetProfit < 0
+                      ? "reklam kendini kurtarmıyor"
+                      : "kâra geçmiş"
+                  }
+                  tone={persona.monthlyAdNetProfit < 0 ? "danger" : "success"}
                 />
               </div>
+              {persona.monthlyAdNetProfit < 0 && (
+                <div className="mt-3 rounded-lg border border-danger/40 bg-danger/10 px-3 py-2 text-sm">
+                  <strong className="text-danger">Yanıltıcı görünüm:</strong>{" "}
+                  ROAS {persona.currentRoas.toFixed(2)}× ilk bakışta iyi
+                  duruyor — ama ürünün marjı reklam maliyetini karşılamıyor.
+                  Ahmet abi reklamdan haftada{" "}
+                  <strong>{fmtTRY(Math.abs(persona.monthlyAdNetProfit / 4.33))}</strong>{" "}
+                  zarar ediyor, farkında değil. Asıl pazarlama metriği <em>ROAS</em>{" "}
+                  değil, <em>marj sonrası net kâr</em>.
+                </div>
+              )}
               <div className="mt-4 overflow-x-auto rounded-xl border border-card-border">
                 <table className="min-w-full text-sm">
                   <thead className="bg-white/[0.02]">
@@ -154,7 +169,8 @@ export default function DashboardPage() {
                       <th>Kelime</th>
                       <th className="text-right">Harcama</th>
                       <th className="text-right">Ciro</th>
-                      <th className="text-right">ROI</th>
+                      <th className="text-right">ROAS</th>
+                      <th className="text-right">Net kâr</th>
                       <th>Değerlendirme</th>
                     </tr>
                   </thead>
@@ -171,16 +187,18 @@ export default function DashboardPage() {
                         <td className="px-3 py-2.5 text-right tabular-nums">
                           {fmtTRY(c.revenue)}
                         </td>
+                        <td className="px-3 py-2.5 text-right tabular-nums text-muted">
+                          {c.roas.toFixed(2)}×
+                        </td>
                         <td
-                          className={`px-3 py-2.5 text-right font-semibold ${
-                            c.roi >= 2
+                          className={`px-3 py-2.5 text-right font-semibold tabular-nums ${
+                            c.netProfit > 0
                               ? "text-brand-2"
-                              : c.roi >= 1
-                                ? "text-accent"
-                                : "text-danger"
+                              : "text-danger"
                           }`}
                         >
-                          {c.roi.toFixed(2)}×
+                          {c.netProfit > 0 ? "+" : ""}
+                          {fmtTRY(c.netProfit)}
                         </td>
                         <td className="px-3 py-2.5">
                           <div className="text-xs text-muted">
@@ -188,9 +206,7 @@ export default function DashboardPage() {
                               className={
                                 c.verdict === "iyi"
                                   ? "text-brand-2"
-                                  : c.verdict === "vasat"
-                                    ? "text-accent"
-                                    : "text-danger"
+                                  : "text-danger"
                               }
                             >
                               {c.verdict}
@@ -205,8 +221,9 @@ export default function DashboardPage() {
                 </table>
               </div>
               <p className="mt-3 text-xs text-muted">
-                Mor butona basıp Gemini'nin bu hafta için ne önerdiğini görelim.
-                Sonra "Bütçe Pilotu"na geçince mevcut harcamayla karşılaştıracağız.
+                Net kâr = (ciro × {Math.round(persona.currentMarginRate * 100)}% marj) − reklam.
+                3 kelimede zarar, sadece "boya kalemi" kâra geçiyor. Mor butona bas, Gemini'nin
+                bu durumu nasıl tersine çevireceğini görelim.
               </p>
             </div>
           )}

@@ -12,7 +12,10 @@ interface AhmetPersona {
   monthlyRevenue: number;
   monthlyAdSpend: number;
   monthlyAdRevenue: number;
-  currentRoi: number;
+  monthlyAdGrossProfit: number;
+  monthlyAdNetProfit: number;
+  currentRoas: number;
+  currentMarginRate: number;
   tagline: string;
 }
 
@@ -21,7 +24,9 @@ interface AhmetCampaign {
   spent: number;
   clicks: number;
   revenue: number;
-  roi: number;
+  grossProfit: number;
+  netProfit: number;
+  roas: number;
   verdict: string;
   issue: string;
 }

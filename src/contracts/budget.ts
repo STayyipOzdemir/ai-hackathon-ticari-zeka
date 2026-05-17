@@ -7,6 +7,10 @@ export const CurrentCampaignSchema = z.object({
   spent: z.number().nonnegative(),
   clicks: z.number().nonnegative().optional(),
   revenue: z.number().nonnegative(),
+  /** Marj sonrası, reklam düşülmeden brüt kâr. Verilmezse ciro × marj ile tahmin */
+  grossProfit: z.number().optional(),
+  /** Reklam düşülmüş net kâr (negatif olabilir). Verilmezse grossProfit - spent */
+  netProfit: z.number().optional(),
 });
 export type CurrentCampaign = z.infer<typeof CurrentCampaignSchema>;
 
@@ -23,11 +27,18 @@ export type BudgetPlanRequest = z.infer<typeof BudgetPlanRequestSchema>;
 export const OpportunityCostSchema = z.object({
   currentTotalSpend: z.number(),
   currentTotalRevenue: z.number(),
+  /** Marj sonrası, reklam düşülmüş net kâr — negatif ise zarar */
+  currentTotalNetProfit: z.number(),
+  /** ROAS = ciro / reklam. Pazarlama jargonu, yanıltıcı olabilir */
+  currentRoas: z.number(),
+  /** Net ROI = net kâr / reklam. Asıl finansal metrik */
+  currentNetRoi: z.number(),
+  /** Geriye uyumluluk: currentRoas ile aynı */
   currentRoi: z.number(),
   projectedRevenue: z.number(),
   projectedProfit: z.number(),
   projectedRoi: z.number(),
-  /** Pozitifse "masada para var", negatifse "yeni plan daha kötü" */
+  /** Pozitifse "masada NET KÂR var", negatifse "yeni plan daha kötü" */
   moneyLeftOnTable: z.number(),
   /** Yıllık projeksiyon (haftalık × 52) */
   annualMoneyLeftOnTable: z.number(),

@@ -210,25 +210,40 @@ export default function BudgetPage() {
                           Para Masada
                         </div>
                         <h3 className="text-2xl md:text-3xl font-semibold leading-tight tracking-tight">
-                          Şu an haftada{" "}
+                          Aynı bütçeyle haftada{" "}
                           <span className="gradient-text">
                             {fmtTRY(Math.abs(plan.opportunityCost.moneyLeftOnTable))}
                           </span>{" "}
                           {plan.opportunityCost.moneyLeftOnTable >= 0
-                            ? "masada bırakıyorsun."
-                            : "daha verimli kullanıyorsun."}
+                            ? "daha fazla NET KÂR yapabilirdin."
+                            : "daha az kâr olurdu — mevcut iyi."}
                         </h3>
                         <div className="grid gap-3 md:grid-cols-3 text-sm">
                           <div className="rounded-xl border border-card-border bg-background/40 px-4 py-3">
                             <div className="text-xs text-muted">
-                              Mevcut reklam
+                              Mevcut durum
                             </div>
                             <div className="mt-1 font-mono text-lg">
                               {fmtTRY(plan.opportunityCost.currentTotalSpend)} →{" "}
                               {fmtTRY(plan.opportunityCost.currentTotalRevenue)}
                             </div>
-                            <div className="mt-0.5 text-xs text-muted">
-                              ROI {plan.opportunityCost.currentRoi.toFixed(2)}×
+                            <div
+                              className={`mt-0.5 text-xs font-semibold ${
+                                plan.opportunityCost.currentTotalNetProfit >= 0
+                                  ? "text-brand-2"
+                                  : "text-danger"
+                              }`}
+                            >
+                              Net:{" "}
+                              {plan.opportunityCost.currentTotalNetProfit >= 0
+                                ? "+"
+                                : ""}
+                              {fmtTRY(
+                                plan.opportunityCost.currentTotalNetProfit
+                              )}{" "}
+                              <span className="text-muted font-normal">
+                                (ROAS {plan.opportunityCost.currentRoas.toFixed(2)}×)
+                              </span>
                             </div>
                           </div>
                           <div className="rounded-xl border border-brand-2/40 bg-brand-2/5 px-4 py-3">
@@ -239,15 +254,21 @@ export default function BudgetPage() {
                               {fmtTRY(plan.totalBudget)} →{" "}
                               {fmtTRY(plan.expectedTotalRevenue)}
                             </div>
-                            <div className="mt-0.5 text-xs text-brand-2">
-                              ROI {plan.expectedRoi.toFixed(2)}×
+                            <div className="mt-0.5 text-xs text-brand-2 font-semibold">
+                              Net: +{fmtTRY(plan.expectedTotalProfit)}{" "}
+                              <span className="text-muted font-normal">
+                                (ROI {plan.expectedRoi.toFixed(2)}×)
+                              </span>
                             </div>
                           </div>
                           <div className="rounded-xl border border-accent/40 bg-accent/5 px-4 py-3">
                             <div className="text-xs text-accent">
-                              Yıllık kayıp projeksiyonu
+                              Yıllık fark
                             </div>
                             <div className="mt-1 font-mono text-lg text-accent">
+                              {plan.opportunityCost.annualMoneyLeftOnTable >= 0
+                                ? "+"
+                                : ""}
                               {fmtTRY(
                                 Math.abs(
                                   plan.opportunityCost.annualMoneyLeftOnTable
@@ -259,24 +280,27 @@ export default function BudgetPage() {
                             </div>
                           </div>
                         </div>
-                        <p className="text-sm text-foreground/80 max-w-2xl">
-                          Aynı reklam bütçesini Gemini'nin önerdiği kelimelere
-                          dağıtsaydın, mevcut ciroyu{" "}
+                        <p className="text-sm text-foreground/80 max-w-3xl">
+                          <strong className="text-foreground">Önemli ayrım:</strong>{" "}
+                          ROAS (ciro/reklam) yanıltıcıdır — yüksek ciro ama düşük
+                          marj zararla sonuçlanabilir. Karşılaştırma{" "}
+                          <strong className="text-accent">net kâr</strong>{" "}
+                          üzerinden: aynı reklam bütçesini Gemini'nin önerdiği
+                          kelimelere dağıtsaydın, satıcının cebine giren miktar{" "}
                           <strong className="text-accent">
                             {fmtTRY(
                               Math.abs(plan.opportunityCost.moneyLeftOnTable)
                             )}
                             /hafta
                           </strong>{" "}
-                          aşardın. Bu, yılda{" "}
+                          farklı olurdu. Yıllık{" "}
                           <strong>
                             {fmtTRY(
                               Math.abs(
                                 plan.opportunityCost.annualMoneyLeftOnTable
                               )
                             )}
-                          </strong>{" "}
-                          eder.
+                          </strong>.
                         </p>
                       </div>
                     </div>

@@ -101,42 +101,67 @@ export function computeRevenueLift(
 
 /**
  * Satıcının mevcut reklam performansıyla, Gemini'nin yeni planını karşılaştırır.
- * Çıktı: "şu an N₺ masada bırakıyorsun" cümlesi için tüm sayılar.
+ *
+ * "Para Masada" = aynı reklam bütçesiyle yeni planın getireceği NET KÂR ile
+ * mevcut net kârın farkı. Ciro değil — ciro yanıltıcı (yüksek ciro + düşük
+ * marj = zarar). Net kâr satıcının cebine giren rakam.
+ *
+ * Mevcut net kârı hesaplamak için campaign'lere `netProfit` ya da `grossProfit`
+ * verilmişse onu kullanır; yoksa ciroyu marj oranıyla çarpıp varsayım yapar.
  */
 export function computeOpportunityCost(
-  currentCampaigns: Array<{ spent: number; revenue: number }>,
-  newPlan: { expectedRevenue: number; expectedProfit: number; totalBudget: number }
+  currentCampaigns: Array<{
+    spent: number;
+    revenue: number;
+    grossProfit?: number;
+    netProfit?: number;
+  }>,
+  newPlan: {
+    expectedRevenue: number;
+    expectedProfit: number;
+    totalBudget: number;
+  },
+  assumedMarginRate = 0.45
 ) {
   const currentTotalSpend = currentCampaigns.reduce((a, c) => a + c.spent, 0);
   const currentTotalRevenue = currentCampaigns.reduce(
     (a, c) => a + c.revenue,
     0
   );
-  const currentRoi =
+  // Net kâr önceliği: kampanya net > kampanya gross-spent > ciro × marj - spent
+  const currentTotalNetProfit = currentCampaigns.reduce((a, c) => {
+    if (typeof c.netProfit === "number") return a + c.netProfit;
+    if (typeof c.grossProfit === "number") return a + (c.grossProfit - c.spent);
+    return a + (c.revenue * assumedMarginRate - c.spent);
+  }, 0);
+
+  const currentRoas =
     currentTotalSpend > 0 ? currentTotalRevenue / currentTotalSpend : 0;
+  const currentNetRoi =
+    currentTotalSpend > 0 ? currentTotalNetProfit / currentTotalSpend : 0;
 
   const projectedRevenue = newPlan.expectedRevenue;
   const projectedProfit = newPlan.expectedProfit;
   const projectedRoi =
     newPlan.totalBudget > 0 ? projectedProfit / newPlan.totalBudget : 0;
 
-  // Aynı bütçeyle yeni plan ne kadar fazla ciro getirir? — bu "masadaki para"
-  // Yani: aynı 8.000₺'yi yeni kelimelere harcayabilseydi, mevcut ciroyu
-  // ne kadar geçerdi?
-  const newPlanRoi =
-    newPlan.totalBudget > 0
-      ? newPlan.expectedRevenue / newPlan.totalBudget
-      : 0;
-  const projectedAtCurrentSpend = newPlanRoi * currentTotalSpend;
+  // Aynı bütçeyle yeni plan ne kadar fazla NET KÂR getirir?
+  const newPlanProfitRate =
+    newPlan.totalBudget > 0 ? projectedProfit / newPlan.totalBudget : 0;
+  const projectedNetAtCurrentSpend = newPlanProfitRate * currentTotalSpend;
   const moneyLeftOnTable = Math.round(
-    projectedAtCurrentSpend - currentTotalRevenue
+    projectedNetAtCurrentSpend - currentTotalNetProfit
   );
   const annualMoneyLeftOnTable = moneyLeftOnTable * 52;
 
   return {
     currentTotalSpend,
     currentTotalRevenue,
-    currentRoi,
+    currentTotalNetProfit: Math.round(currentTotalNetProfit),
+    currentRoas,
+    currentNetRoi,
+    /** geriye uyumluluk için (eski isim) */
+    currentRoi: currentRoas,
     projectedRevenue,
     projectedProfit,
     projectedRoi,

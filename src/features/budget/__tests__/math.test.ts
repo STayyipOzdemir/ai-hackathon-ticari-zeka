@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   CPC,
   computeAllocation,
+  computeOpportunityCost,
   computeRevenueLift,
   normalizeCategory,
   normalizeCompetition,
@@ -164,5 +165,52 @@ describe("computeRevenueLift", () => {
 
   it("product yoksa revenueLift = 0", () => {
     expect(computeRevenueLift(0.2, undefined).revenueLift).toBe(0);
+  });
+});
+
+describe("computeOpportunityCost", () => {
+  it("ROAS yüksek + marj düşük → net kâr negatif (Ahmet abi senaryosu)", () => {
+    const campaigns = [
+      { keyword: "k1", spent: 2400, revenue: 1800, netProfit: -1590 },
+      { keyword: "k2", spent: 1800, revenue: 2900, netProfit: -495 },
+      { keyword: "k3", spent: 2200, revenue: 3200, netProfit: -760 },
+      { keyword: "k4", spent: 1600, revenue: 4400, netProfit: 380 },
+    ];
+    const result = computeOpportunityCost(campaigns, {
+      expectedRevenue: 20000,
+      expectedProfit: 6000,
+      totalBudget: 8000,
+    });
+    // ROAS = 12300/8000 = 1.5375
+    expect(result.currentRoas).toBeCloseTo(1.5375, 3);
+    // Net kâr toplam: -1590-495-760+380 = -2465 (negatif → reklam zarar)
+    expect(result.currentTotalNetProfit).toBe(-2465);
+    // ROAS pozitif ama net ROI negatif → demin yakaladığımız hata
+    expect(result.currentRoas).toBeGreaterThan(0);
+    expect(result.currentNetRoi).toBeLessThan(0);
+  });
+
+  it("netProfit verilmezse ciro × marj - spent ile tahmin yapar", () => {
+    const campaigns = [{ keyword: "k1", spent: 1000, revenue: 3000 }];
+    const result = computeOpportunityCost(
+      campaigns,
+      { expectedRevenue: 5000, expectedProfit: 1500, totalBudget: 1000 },
+      0.5 // %50 marj varsayımı
+    );
+    // gross = 3000 × 0.5 = 1500, net = 1500 - 1000 = 500
+    expect(result.currentTotalNetProfit).toBe(500);
+  });
+
+  it("yeni plan daha iyiyse moneyLeftOnTable pozitif", () => {
+    const campaigns = [{ keyword: "k1", spent: 1000, revenue: 1500, netProfit: -250 }];
+    const result = computeOpportunityCost(campaigns, {
+      expectedRevenue: 5000,
+      expectedProfit: 2000,
+      totalBudget: 1000,
+    });
+    // projeNetRate = 2000/1000 = 2x. Aynı 1000₺ harcasa 2000₺ net.
+    // moneyLeft = 2000 - (-250) = 2250
+    expect(result.moneyLeftOnTable).toBe(2250);
+    expect(result.annualMoneyLeftOnTable).toBe(2250 * 52);
   });
 });

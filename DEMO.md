@@ -21,10 +21,10 @@
 > **Çekim:** Loom / QuickTime ekran kaydı, 1080p, sesli. Tek alış.
 
 | 0:00–0:08 | **Landing** | "KOBİ e-ticaret satıcısı 1000 ürünle yalnız. Tahminle reklam veriyor, kira ödenmiyor. TicariZeka, Gemini ile bunu kâr odaklı veriye çevirir." |
-| 0:08–0:18 | **Dashboard'da Ahmet butonu** | "Demo için Bursa'lı Ahmet abinin gerçek senaryosu yüklü. Geçen ay 8.000₺ reklam vermiş, 12.300₺ ciro yapmış — ROI 1.5x." |
-| 0:18–0:35 | **Mor buton + streaming** | "Gemini'ye soruyorum. Bu hafta için 5 öneri streaming ile akıyor. Her öneri: yeni başlık + öncelik + tahmini ek ciro." |
-| 0:35–0:50 | **Bütçe Pilotu → Para Masada** | "Şimdi finansa bakıyoruz. Aynı 8.000₺'yi yeni kelimelere dağıtsak — **haftada 3.700₺ masada bırakıyormuş**. Yılda 192 bin lira." |
-| 0:50–0:60 | **Kredi köprüsü** | "Bütçesi yetmiyorsa Vakıfbank Esnaf Kredisi'nden 17 bin çekse — taksit 1.498₺, beklenen aylık kâr 12.500₺, net fayda **+29 bin**. Borç al, kâra geç." |
+| 0:08–0:20 | **Dashboard'da Ahmet butonu** | "Bursa'lı Ahmet abi. 8.000₺ reklam vermiş, 12.300₺ ciro yapmış. ROAS 1.54x — iyi sanılır. Ama %45 marjla brüt kâr 5.500₺, **net -2.500₺ ZARAR**. Farkında değil." |
+| 0:20–0:35 | **Mor buton + streaming** | "Gemini'ye soruyorum. Streaming ile 5 öneri akıyor — yeni başlık + öncelik + tahmini ek ciro." |
+| 0:35–0:50 | **Bütçe Pilotu → Para Masada** | "Aynı 8.000₺'yi yeni kelimelere dağıtsa — net kâr +6.000₺. Şu an haftada **8.500₺ NET KÂRI masada bırakıyor**. Yılda 440 bin." |
+| 0:50–0:60 | **Kredi köprüsü** | "Bütçesi yetmiyorsa Vakıfbank Esnaf Kredisi'nden 10 bin çekse — taksit 1.800₺, net fayda **+74 bin**. Borçla kâra geç." |
 
 Toplam: 60 saniye, finansal sonuç odaklı. **"Masada bırakılan para" + "kredi mantıklı mı"** — bu iki cümle jüriye kalır.
 
@@ -46,13 +46,17 @@ Landing açık, ekrana göster:
 
 > "Ahmet abi 12 yıl kırtasiyeci. 2 yıl önce Trendyol'a açılmış. 487 ürün, kendi başına yönetiyor.
 >
-> Geçen ay reklam bütçesi **8.000 lira**. Reklamdan ciro **12.300 lira**. ROI 1.5x — fena değil di mi?
+> Geçen ay reklam bütçesi **8.000 lira**. Reklamdan ciro **12.300 lira**. **ROAS 1.54x** — pazarlamada 'iyi' sayılan rakam, di mi?
 >
-> Aslında çok kötü. Çünkü 8 binin **6.400 lirası 3 yanlış kelimede** boşa gitti — kırtasiye malzemeleri ROI 0.75, defter 1.45, kalem seti 1.61. **Tek doğru kararı boya kalemi** — ROI 2.75. Ama oraya bütçenin sadece %20'sini ayırmış.
+> Aslında **felaket**. Çünkü Ahmet abi her ürünü %45 marjla satıyor. 12.300 ciro × %45 = 5.535₺ brüt kâr. 5.535 − 8.000 reklam = **eksi 2.500 lira net ZARAR**.
 >
-> Sorunu Ahmet abinin yetkin olmaması değil. Sorun: 1000 ürün, 1 kişi, hangi ürünü öne çıkaracağını **tahminle** karar veriyor.
+> Ahmet abi aslında reklamdan **zarar ediyor**, ROAS yüksek göründüğü için farkında değil. Asıl metrik ciro değil **net kâr**.
 >
-> TicariZeka, Gemini ile Ahmet abinin yerinde olsa **ne yapardı**'yı söylüyor. Şimdi göstereyim."
+> 8 binin **6.400 lirası 3 yanlış kelimede** boşa gitti — kırtasiye malzemeleri net -1.590₺, defter -760₺, kalem seti -495₺. **Tek pozitif boya kalemi** — net +380₺. Ama oraya bütçenin sadece %20'sini ayırmış.
+>
+> Sorunu Ahmet abinin yetkin olmaması değil. Sorun: 1000 ürün, 1 kişi, hangi ürünü öne çıkaracağını **tahminle** karar veriyor, üstelik ROAS'a bakıyor — pazaryeri panellerinin gösterdiği yanıltıcı metrik.
+>
+> TicariZeka, Gemini ile Ahmet abinin yerinde olsa **ne yapardı**'yı söylüyor. Üstelik **net kâr** üzerinden. Şimdi göstereyim."
 
 ### 0:45–2:15 — Dashboard, Ahmet senaryosu
 
@@ -94,13 +98,15 @@ Landing açık, ekrana göster:
 
 > "İşte demin söylediğim. Üst kartta:
 >
-> '**Şu an haftada 3.720₺ masada bırakıyorsun.**'
+> '**Aynı bütçeyle haftada 8.500₺ daha fazla NET KÂR yapabilirdin.**'
 >
-> Soldaki: Ahmet abinin mevcut reklamı, 8.000₺ → 12.300₺, ROI 1.54x.
-> Ortadaki: Gemini'nin önerdiği aynı bütçeyle dağıtım, ROI 2.30x.
-> Sağdaki: **Yıllık projeksiyon — 192.000₺ kayıp**.
+> Soldaki: Ahmet abinin mevcut durumu. ROAS 1.54x (yanıltıcı yüksek) ama net **eksi 2.465₺**.
+> Ortadaki: Gemini'nin önerdiği dağıtım. Aynı 8.000₺. Net **artı 6.000₺**.
+> Sağdaki: **Yıllık fark — 440.000₺**.
 >
-> Bu sayı yüzde değil, lira. Ahmet abinin gözüne bakıp 'yılda iki yüz bin lira masada' demek — bu cümle her satıcının ilgisini çeker.
+> Bu sayı yüzde değil, lira. Ahmet abinin gözüne bakıp 'yılda 440 bin lira masada' demek — bu cümle her satıcının ilgisini çeker.
+>
+> Üstelik buradaki ayrım kritik: pazaryeri panelleri **ROAS** gösterir, biz **NET KÂR** gösteririz. Bu fark Türkiye'deki KOBİ satıcılarının kaybettiği milyarlarca lirayı açıklar — ROAS'a aldanıp zarar ediyorlar.
 >
 > Aşağıda Gemini'nin **kelime başına dağıtım tablosu**. 'Boya kalemi' ROI 5.8x — yeşil. 'Okul çantası' ROI 1.2x — sarı. Eğer 'Kırtasiye malzemeleri'ne çevirseydi ROI 0.4x'e düşerdi — kırmızı 'harca-ma' uyarısı çıkardı.
 >
