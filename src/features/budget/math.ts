@@ -1,0 +1,100 @@
+import type {
+  BudgetAllocation,
+  Category,
+  Competition,
+  GeminiAllocation,
+  Product,
+} from "@/contracts";
+import { CATEGORY_VALUES } from "@/contracts";
+
+export const CPC: Record<Competition, number> = {
+  dusuk: 2.25,
+  orta: 5,
+  yuksek: 11,
+};
+
+export function normalizeCompetition(s: string): Competition {
+  const v = s.toLowerCase().trim();
+  if (v.startsWith("d")) return "dusuk";
+  if (v.startsWith("y")) return "yuksek";
+  return "orta";
+}
+
+export function normalizeCategory(s: string): Category {
+  const v = s.toLowerCase().trim() as Category;
+  return CATEGORY_VALUES.includes(v) ? v : "kirtasiye";
+}
+
+/**
+ * Gemini'nin (keyword + budget + competition + matchedProductIds) önerisini
+ * deterministik finansal sonuca dönüştürür. Bu fonksiyon saf — input ne ise
+ * output her zaman aynı. Test edilebilir.
+ */
+export function computeAllocation(
+  raw: GeminiAllocation,
+  productsById: Map<string, Product>
+): BudgetAllocation {
+  const competition = normalizeCompetition(raw.competition);
+  const category = normalizeCategory(raw.category);
+  const cpc = CPC[competition];
+  const conversionRate = Math.max(
+    0.005,
+    Math.min(0.12, raw.conversionRate || 0.03)
+  );
+  const budget = Math.max(0, Math.round(raw.recommendedBudget));
+
+  const matched = raw.matchedProductIds
+    .map((id) => productsById.get(id))
+    .filter((p): p is Product => Boolean(p));
+
+  const fallbackPool = Array.from(productsById.values()).filter(
+    (p) => p.category === category
+  );
+  const pool = matched.length > 0 ? matched : fallbackPool;
+
+  const avgPrice =
+    pool.length > 0
+      ? pool.reduce((a, p) => a + p.price, 0) / pool.length
+      : 400;
+  const avgCost =
+    pool.length > 0
+      ? pool.reduce((a, p) => a + p.cost, 0) / pool.length
+      : avgPrice * 0.5;
+  const avgMargin = avgPrice - avgCost;
+
+  const expectedClicks = budget > 0 ? Math.round(budget / cpc) : 0;
+  const expectedConversions = Math.round(expectedClicks * conversionRate);
+  const expectedRevenue = Math.round(expectedConversions * avgPrice);
+  const expectedProfit = Math.round(expectedConversions * avgMargin - budget);
+  const roi = budget > 0 ? expectedProfit / budget : 0;
+
+  return {
+    keyword: raw.keyword,
+    category,
+    competition,
+    cpc,
+    conversionRate,
+    recommendedBudget: budget,
+    expectedClicks,
+    expectedConversions,
+    expectedRevenue,
+    expectedProfit,
+    roi,
+    rationale: raw.rationale,
+  };
+}
+
+/**
+ * Insights için: Gemini'nin estimatedCtrLift'ini reasonable aralığa clamp
+ * eder ve gerçek satış × fiyat ile çarparak 30g ek ciro tahmini üretir.
+ */
+export function computeRevenueLift(
+  estimatedCtrLift: number,
+  product: Product | undefined
+): { ctrLift: number; revenueLift: number } {
+  const ctrLift = Math.max(0.01, Math.min(0.6, estimatedCtrLift));
+  const revenueLift = product
+    ? Math.round(product.sales30d * product.price * ctrLift)
+    : 0;
+  return { ctrLift, revenueLift };
+}

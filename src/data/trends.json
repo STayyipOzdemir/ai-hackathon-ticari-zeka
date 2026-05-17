@@ -1,0 +1,29 @@
+{
+  "weekOf": "2026-05-17",
+  "categoryTrends": [
+    { "category": "kirtasiye", "heat": 92, "weekOverWeek": 0.34, "topKeywords": ["okul çantası", "suluk", "kalem kutusu", "beslenme çantası", "ilkokul seti"] },
+    { "category": "elektronik", "heat": 71, "weekOverWeek": 0.08, "topKeywords": ["kablosuz kulaklık", "hızlı şarj", "akıllı saat", "type-c kablo"] },
+    { "category": "moda-kadin", "heat": 88, "weekOverWeek": 0.41, "topKeywords": ["yazlık elbise", "bikini", "plaj elbisesi", "yüksek bel şort", "hasır sandalet"] },
+    { "category": "moda-erkek", "heat": 74, "weekOverWeek": 0.22, "topKeywords": ["mayo şort", "polo tişört", "spor ayakkabı", "güneş gözlüğü", "keten gömlek"] },
+    { "category": "ev-yasam", "heat": 81, "weekOverWeek": 0.58, "topKeywords": ["klima", "vantilatör", "mutfak robotu", "tava seti"] },
+    { "category": "kozmetik", "heat": 79, "weekOverWeek": 0.46, "topKeywords": ["güneş kremi", "spf 50", "vitamin c serum", "saç bakım", "parfüm"] },
+    { "category": "spor", "heat": 76, "weekOverWeek": 0.38, "topKeywords": ["plaj şemsiyesi", "şişme yatak", "yoga matı", "koşu ayakkabısı", "bisiklet kaskı"] },
+    { "category": "anne-bebek", "heat": 85, "weekOverWeek": 0.29, "topKeywords": ["bebek bezi", "şişme havuz", "biberon", "bebek maması"] },
+    { "category": "kitap", "heat": 68, "weekOverWeek": 0.18, "topKeywords": ["yks soru bankası", "lgs deneme", "yazlık roman", "çocuk hikaye"] },
+    { "category": "supermarket", "heat": 64, "weekOverWeek": 0.05, "topKeywords": ["türk kahvesi", "zeytinyağı", "kuruyemiş", "granola"] }
+  ],
+  "topKeywordsAcrossMarket": [
+    { "keyword": "okul çantası", "category": "kirtasiye", "searchScore": 96, "weekOverWeek": 0.62, "competition": "yuksek" },
+    { "keyword": "yazlık elbise", "category": "moda-kadin", "searchScore": 91, "weekOverWeek": 0.48, "competition": "yuksek" },
+    { "keyword": "bikini", "category": "moda-kadin", "searchScore": 89, "weekOverWeek": 0.55, "competition": "yuksek" },
+    { "keyword": "klima", "category": "ev-yasam", "searchScore": 88, "weekOverWeek": 0.71, "competition": "orta" },
+    { "keyword": "güneş kremi spf 50", "category": "kozmetik", "searchScore": 85, "weekOverWeek": 0.49, "competition": "orta" },
+    { "keyword": "şişme havuz", "category": "anne-bebek", "searchScore": 84, "weekOverWeek": 0.66, "competition": "dusuk" },
+    { "keyword": "mayo şort erkek", "category": "moda-erkek", "searchScore": 78, "weekOverWeek": 0.34, "competition": "orta" },
+    { "keyword": "plaj şemsiyesi", "category": "spor", "searchScore": 76, "weekOverWeek": 0.52, "competition": "dusuk" },
+    { "keyword": "vantilatör", "category": "ev-yasam", "searchScore": 75, "weekOverWeek": 0.61, "competition": "orta" },
+    { "keyword": "suluk", "category": "kirtasiye", "searchScore": 72, "weekOverWeek": 0.33, "competition": "dusuk" },
+    { "keyword": "kablosuz kulaklık", "category": "elektronik", "searchScore": 70, "weekOverWeek": 0.12, "competition": "yuksek" },
+    { "keyword": "vitamin c serum", "category": "kozmetik", "searchScore": 68, "weekOverWeek": 0.27, "competition": "orta" }
+  ]
+}
