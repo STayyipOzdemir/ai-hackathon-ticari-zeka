@@ -25,7 +25,8 @@ export async function POST(req: Request) {
     const result = await generateBudgetPlan(
       parsed.data.products,
       parsed.data.totalBudget,
-      parsed.data.suggestedKeywords ?? []
+      parsed.data.suggestedKeywords ?? [],
+      parsed.data.currentCampaigns
     );
     return ok(result);
   } catch (err) {

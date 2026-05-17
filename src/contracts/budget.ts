@@ -2,13 +2,37 @@ import { z } from "zod";
 import { CatalogSchema } from "./product";
 import { CategorySchema, CompetitionSchema } from "./category";
 
+export const CurrentCampaignSchema = z.object({
+  keyword: z.string().min(1),
+  spent: z.number().nonnegative(),
+  clicks: z.number().nonnegative().optional(),
+  revenue: z.number().nonnegative(),
+});
+export type CurrentCampaign = z.infer<typeof CurrentCampaignSchema>;
+
 export const BudgetPlanRequestSchema = z.object({
   products: CatalogSchema.min(1, "Ürün listesi boş."),
   totalBudget: z.number().min(100, "Bütçe en az 100₺ olmalı."),
   /** Insights ekranından gelen öncelikli kelime önerileri */
   suggestedKeywords: z.array(z.string()).optional(),
+  /** Satıcının şu anki reklam kampanyaları — fırsat maliyeti hesabı için */
+  currentCampaigns: z.array(CurrentCampaignSchema).optional(),
 });
 export type BudgetPlanRequest = z.infer<typeof BudgetPlanRequestSchema>;
+
+export const OpportunityCostSchema = z.object({
+  currentTotalSpend: z.number(),
+  currentTotalRevenue: z.number(),
+  currentRoi: z.number(),
+  projectedRevenue: z.number(),
+  projectedProfit: z.number(),
+  projectedRoi: z.number(),
+  /** Pozitifse "masada para var", negatifse "yeni plan daha kötü" */
+  moneyLeftOnTable: z.number(),
+  /** Yıllık projeksiyon (haftalık × 52) */
+  annualMoneyLeftOnTable: z.number(),
+});
+export type OpportunityCost = z.infer<typeof OpportunityCostSchema>;
 
 export const GeminiAllocationSchema = z.object({
   keyword: z.string(),
@@ -52,5 +76,7 @@ export const BudgetPlanResponseSchema = z.object({
   summary: z.string(),
   trendSource: z.enum(["live", "partial", "fallback"]).optional(),
   trendsFetchedAt: z.string().optional(),
+  /** Mevcut kampanyalarla karşılaştırma (varsa) */
+  opportunityCost: OpportunityCostSchema.optional(),
 });
 export type BudgetPlanResponse = z.infer<typeof BudgetPlanResponseSchema>;

@@ -4,5 +4,6 @@ export * from "./trend";
 export * from "./insights";
 export * from "./optimize";
 export * from "./budget";
+export * from "./credit";
 
 export type ApiError = { error: string; details?: unknown };

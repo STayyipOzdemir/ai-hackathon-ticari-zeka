@@ -10,6 +10,7 @@ import {
   Download,
 } from "lucide-react";
 import { downloadCSV } from "@/lib/download";
+import { CreditBridge } from "@/components/credit-bridge";
 import {
   Bar,
   BarChart,
@@ -39,6 +40,8 @@ const PRESETS = [1000, 2500, 5000, 10000, 25000];
 export default function BudgetPage() {
   const catalog = useCatalogStore((s) => s.catalog);
   const loadDemo = useCatalogStore((s) => s.loadDemo);
+  const loadAhmetDemo = useCatalogStore((s) => s.loadAhmetDemo);
+  const currentCampaigns = useCatalogStore((s) => s.currentCampaigns);
   const hydrated = useHydrated();
 
   const [budget, setBudget] = useState<number>(2500);
@@ -58,6 +61,12 @@ export default function BudgetPage() {
       products: catalog,
       totalBudget: budget,
       suggestedKeywords: suggestedKeywords.length > 0 ? suggestedKeywords : undefined,
+      currentCampaigns: currentCampaigns?.map((c) => ({
+        keyword: c.keyword,
+        spent: c.spent,
+        clicks: c.clicks,
+        revenue: c.revenue,
+      })),
     });
   };
 
@@ -97,10 +106,16 @@ export default function BudgetPage() {
               <p className="text-sm text-muted">
                 Bütçe planlamak için önce kataloğunu yüklemelisin.
               </p>
-              <Button onClick={loadDemo}>
-                <Sparkles className="size-4" />
-                Örnek Katalog
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={loadAhmetDemo}>
+                  <Sparkles className="size-4" />
+                  Ahmet Abi
+                </Button>
+                <Button onClick={loadDemo}>
+                  <Sparkles className="size-4" />
+                  Örnek Katalog
+                </Button>
+              </div>
             </div>
           )}
 
@@ -186,6 +201,87 @@ export default function BudgetPage() {
                   animate={{ opacity: 1, y: 0 }}
                   className="space-y-6"
                 >
+                  {plan.opportunityCost && (
+                    <div className="relative overflow-hidden rounded-3xl border border-accent/50 bg-gradient-to-br from-accent/15 via-background/40 to-danger/10 p-6 md:p-8">
+                      <div className="pointer-events-none absolute -top-20 -right-10 size-64 rounded-full bg-accent/20 blur-3xl" />
+                      <div className="relative space-y-3">
+                        <div className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs uppercase tracking-wider text-accent">
+                          <span>⚠</span>
+                          Para Masada
+                        </div>
+                        <h3 className="text-2xl md:text-3xl font-semibold leading-tight tracking-tight">
+                          Şu an haftada{" "}
+                          <span className="gradient-text">
+                            {fmtTRY(Math.abs(plan.opportunityCost.moneyLeftOnTable))}
+                          </span>{" "}
+                          {plan.opportunityCost.moneyLeftOnTable >= 0
+                            ? "masada bırakıyorsun."
+                            : "daha verimli kullanıyorsun."}
+                        </h3>
+                        <div className="grid gap-3 md:grid-cols-3 text-sm">
+                          <div className="rounded-xl border border-card-border bg-background/40 px-4 py-3">
+                            <div className="text-xs text-muted">
+                              Mevcut reklam
+                            </div>
+                            <div className="mt-1 font-mono text-lg">
+                              {fmtTRY(plan.opportunityCost.currentTotalSpend)} →{" "}
+                              {fmtTRY(plan.opportunityCost.currentTotalRevenue)}
+                            </div>
+                            <div className="mt-0.5 text-xs text-muted">
+                              ROI {plan.opportunityCost.currentRoi.toFixed(2)}×
+                            </div>
+                          </div>
+                          <div className="rounded-xl border border-brand-2/40 bg-brand-2/5 px-4 py-3">
+                            <div className="text-xs text-brand-2">
+                              TicariZeka önerisi
+                            </div>
+                            <div className="mt-1 font-mono text-lg">
+                              {fmtTRY(plan.totalBudget)} →{" "}
+                              {fmtTRY(plan.expectedTotalRevenue)}
+                            </div>
+                            <div className="mt-0.5 text-xs text-brand-2">
+                              ROI {plan.expectedRoi.toFixed(2)}×
+                            </div>
+                          </div>
+                          <div className="rounded-xl border border-accent/40 bg-accent/5 px-4 py-3">
+                            <div className="text-xs text-accent">
+                              Yıllık kayıp projeksiyonu
+                            </div>
+                            <div className="mt-1 font-mono text-lg text-accent">
+                              {fmtTRY(
+                                Math.abs(
+                                  plan.opportunityCost.annualMoneyLeftOnTable
+                                )
+                              )}
+                            </div>
+                            <div className="mt-0.5 text-xs text-muted">
+                              haftalık × 52
+                            </div>
+                          </div>
+                        </div>
+                        <p className="text-sm text-foreground/80 max-w-2xl">
+                          Aynı reklam bütçesini Gemini'nin önerdiği kelimelere
+                          dağıtsaydın, mevcut ciroyu{" "}
+                          <strong className="text-accent">
+                            {fmtTRY(
+                              Math.abs(plan.opportunityCost.moneyLeftOnTable)
+                            )}
+                            /hafta
+                          </strong>{" "}
+                          aşardın. Bu, yılda{" "}
+                          <strong>
+                            {fmtTRY(
+                              Math.abs(
+                                plan.opportunityCost.annualMoneyLeftOnTable
+                              )
+                            )}
+                          </strong>{" "}
+                          eder.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="grid gap-4 md:grid-cols-4">
                     <Stat
                       label="Bütçe"
@@ -442,6 +538,17 @@ export default function BudgetPage() {
                       </div>
                     </div>
                   </div>
+
+                  {plan.expectedTotalProfit > 0 && (
+                    <CreditBridge
+                      targetBudget={plan.totalBudget}
+                      expectedWeeklyProfit={plan.expectedTotalProfit}
+                      defaultAvailable={
+                        plan.opportunityCost?.currentTotalSpend ??
+                        Math.round(plan.totalBudget * 0.4)
+                      }
+                    />
+                  )}
                 </motion.div>
               )}
 

@@ -25,6 +25,7 @@ import { fmtNum, fmtPct, fmtTRY } from "@/lib/utils";
 export default function OptimizerPage() {
   const catalog = useCatalogStore((s) => s.catalog);
   const loadDemo = useCatalogStore((s) => s.loadDemo);
+  const loadAhmetDemo = useCatalogStore((s) => s.loadAhmetDemo);
   const hydrated = useHydrated();
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -96,10 +97,16 @@ export default function OptimizerPage() {
               <p className="text-sm text-muted">
                 Henüz katalog yok. Demoyu yüklemek için bas.
               </p>
-              <Button onClick={loadDemo}>
-                <Sparkles className="size-4" />
-                Örnek Katalog
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={loadAhmetDemo}>
+                  <Sparkles className="size-4" />
+                  Ahmet Abi
+                </Button>
+                <Button onClick={loadDemo}>
+                  <Sparkles className="size-4" />
+                  Örnek Katalog
+                </Button>
+              </div>
             </div>
           )}
 

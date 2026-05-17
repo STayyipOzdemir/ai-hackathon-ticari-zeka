@@ -2,7 +2,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { apiFetch } from "@/lib/fetcher";
-import { BudgetPlanResponseSchema, type Product } from "@/contracts";
+import {
+  BudgetPlanResponseSchema,
+  type CurrentCampaign,
+  type Product,
+} from "@/contracts";
 import { useInsightsStore } from "@/stores/insights-store";
 
 export function useGenerateBudgetPlan() {
@@ -14,14 +18,21 @@ export function useGenerateBudgetPlan() {
       products,
       totalBudget,
       suggestedKeywords,
+      currentCampaigns,
     }: {
       products: Product[];
       totalBudget: number;
       suggestedKeywords?: string[];
+      currentCampaigns?: CurrentCampaign[];
     }) =>
       apiFetch("/api/budget-plan", BudgetPlanResponseSchema, {
         method: "POST",
-        body: JSON.stringify({ products, totalBudget, suggestedKeywords }),
+        body: JSON.stringify({
+          products,
+          totalBudget,
+          suggestedKeywords,
+          currentCampaigns,
+        }),
       }),
     onSuccess: (data) => {
       setBudgetPlan(data);

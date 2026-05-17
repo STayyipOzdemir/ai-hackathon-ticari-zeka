@@ -30,7 +30,10 @@ export default function DashboardPage() {
   const catalog = useCatalogStore((s) => s.catalog);
   const setCatalog = useCatalogStore((s) => s.setCatalog);
   const loadDemo = useCatalogStore((s) => s.loadDemo);
+  const loadAhmetDemo = useCatalogStore((s) => s.loadAhmetDemo);
   const reset = useCatalogStore((s) => s.reset);
+  const persona = useCatalogStore((s) => s.persona);
+  const currentCampaigns = useCatalogStore((s) => s.currentCampaigns);
   const hydrated = useHydrated();
 
   const insights = useInsightsStore((s) => s.insights);
@@ -111,8 +114,102 @@ export default function DashboardPage() {
             catalog={catalog}
             onChange={setCatalog}
             onLoadDemo={loadDemo}
+            onLoadAhmetDemo={loadAhmetDemo}
             onClear={reset}
+            persona={persona}
           />
+
+          {persona && currentCampaigns && (
+            <div className="glass rounded-2xl p-5 border-accent/30">
+              <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-accent">
+                <span>Ahmet abinin geçen ay verdiği reklamlar</span>
+              </div>
+              <div className="mt-3 grid gap-3 md:grid-cols-4">
+                <Stat
+                  label="Aylık ciro"
+                  value={fmtTRY(persona.monthlyRevenue)}
+                  hint="Trendyol mağazası"
+                />
+                <Stat
+                  label="Reklam harcaması"
+                  value={fmtTRY(persona.monthlyAdSpend)}
+                  hint="bu ay"
+                />
+                <Stat
+                  label="Reklamdan ciro"
+                  value={fmtTRY(persona.monthlyAdRevenue)}
+                  tone="success"
+                />
+                <Stat
+                  label="Mevcut ROI"
+                  value={`${persona.currentRoi.toFixed(2)}×`}
+                  hint="reklamdan dönen / harcanan"
+                  tone={persona.currentRoi >= 2 ? "success" : "warning"}
+                />
+              </div>
+              <div className="mt-4 overflow-x-auto rounded-xl border border-card-border">
+                <table className="min-w-full text-sm">
+                  <thead className="bg-white/[0.02]">
+                    <tr className="[&>th]:px-3 [&>th]:py-2 [&>th]:text-left [&>th]:text-xs [&>th]:uppercase [&>th]:tracking-wider [&>th]:text-muted [&>th]:font-normal">
+                      <th>Kelime</th>
+                      <th className="text-right">Harcama</th>
+                      <th className="text-right">Ciro</th>
+                      <th className="text-right">ROI</th>
+                      <th>Değerlendirme</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentCampaigns.map((c) => (
+                      <tr
+                        key={c.keyword}
+                        className="border-t border-card-border/60"
+                      >
+                        <td className="px-3 py-2.5 font-medium">{c.keyword}</td>
+                        <td className="px-3 py-2.5 text-right tabular-nums">
+                          {fmtTRY(c.spent)}
+                        </td>
+                        <td className="px-3 py-2.5 text-right tabular-nums">
+                          {fmtTRY(c.revenue)}
+                        </td>
+                        <td
+                          className={`px-3 py-2.5 text-right font-semibold ${
+                            c.roi >= 2
+                              ? "text-brand-2"
+                              : c.roi >= 1
+                                ? "text-accent"
+                                : "text-danger"
+                          }`}
+                        >
+                          {c.roi.toFixed(2)}×
+                        </td>
+                        <td className="px-3 py-2.5">
+                          <div className="text-xs text-muted">
+                            <strong
+                              className={
+                                c.verdict === "iyi"
+                                  ? "text-brand-2"
+                                  : c.verdict === "vasat"
+                                    ? "text-accent"
+                                    : "text-danger"
+                              }
+                            >
+                              {c.verdict}
+                            </strong>
+                            {" — "}
+                            {c.issue}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p className="mt-3 text-xs text-muted">
+                Mor butona basıp Gemini'nin bu hafta için ne önerdiğini görelim.
+                Sonra "Bütçe Pilotu"na geçince mevcut harcamayla karşılaştıracağız.
+              </p>
+            </div>
+          )}
 
           {/* GEMINI HERO — en önemli aksiyon, katalog hemen altında */}
           <section className="relative">

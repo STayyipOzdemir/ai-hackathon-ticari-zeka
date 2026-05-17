@@ -98,3 +98,49 @@ export function computeRevenueLift(
     : 0;
   return { ctrLift, revenueLift };
 }
+
+/**
+ * Satıcının mevcut reklam performansıyla, Gemini'nin yeni planını karşılaştırır.
+ * Çıktı: "şu an N₺ masada bırakıyorsun" cümlesi için tüm sayılar.
+ */
+export function computeOpportunityCost(
+  currentCampaigns: Array<{ spent: number; revenue: number }>,
+  newPlan: { expectedRevenue: number; expectedProfit: number; totalBudget: number }
+) {
+  const currentTotalSpend = currentCampaigns.reduce((a, c) => a + c.spent, 0);
+  const currentTotalRevenue = currentCampaigns.reduce(
+    (a, c) => a + c.revenue,
+    0
+  );
+  const currentRoi =
+    currentTotalSpend > 0 ? currentTotalRevenue / currentTotalSpend : 0;
+
+  const projectedRevenue = newPlan.expectedRevenue;
+  const projectedProfit = newPlan.expectedProfit;
+  const projectedRoi =
+    newPlan.totalBudget > 0 ? projectedProfit / newPlan.totalBudget : 0;
+
+  // Aynı bütçeyle yeni plan ne kadar fazla ciro getirir? — bu "masadaki para"
+  // Yani: aynı 8.000₺'yi yeni kelimelere harcayabilseydi, mevcut ciroyu
+  // ne kadar geçerdi?
+  const newPlanRoi =
+    newPlan.totalBudget > 0
+      ? newPlan.expectedRevenue / newPlan.totalBudget
+      : 0;
+  const projectedAtCurrentSpend = newPlanRoi * currentTotalSpend;
+  const moneyLeftOnTable = Math.round(
+    projectedAtCurrentSpend - currentTotalRevenue
+  );
+  const annualMoneyLeftOnTable = moneyLeftOnTable * 52;
+
+  return {
+    currentTotalSpend,
+    currentTotalRevenue,
+    currentRoi,
+    projectedRevenue,
+    projectedProfit,
+    projectedRoi,
+    moneyLeftOnTable,
+    annualMoneyLeftOnTable,
+  };
+}

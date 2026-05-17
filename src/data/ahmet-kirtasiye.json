@@ -1,0 +1,67 @@
+{
+  "persona": {
+    "name": "Ahmet Yıldız",
+    "shopName": "Ahmet Kırtasiye",
+    "city": "Bursa",
+    "monthlyRevenue": 84000,
+    "monthlyAdSpend": 8000,
+    "monthlyAdRevenue": 12300,
+    "currentRoi": 1.54,
+    "tagline": "12 yıllık küçük dükkân, 2 yıl önce Trendyol'a açıldı. 487 ürün, kendi yönetiyor."
+  },
+  "lastWeekCampaigns": [
+    {
+      "keyword": "kırtasiye malzemeleri",
+      "spent": 2400,
+      "clicks": 320,
+      "revenue": 1800,
+      "roi": 0.75,
+      "verdict": "zarar",
+      "issue": "Çok geniş + yüksek rekabet. Bu hafta WoW -%18, daha da düşüyor."
+    },
+    {
+      "keyword": "kalem seti",
+      "spent": 1800,
+      "clicks": 240,
+      "revenue": 2900,
+      "roi": 1.61,
+      "verdict": "vasat",
+      "issue": "Stoğunda 4 ürün var ama hepsi düşük marjlı."
+    },
+    {
+      "keyword": "defter",
+      "spent": 2200,
+      "clicks": 410,
+      "revenue": 3200,
+      "roi": 1.45,
+      "verdict": "vasat",
+      "issue": "Mevsim dışı, yaz sonu. Okula geri sayım başlamadan harcama erken."
+    },
+    {
+      "keyword": "boya kalemi",
+      "spent": 1600,
+      "clicks": 180,
+      "revenue": 4400,
+      "roi": 2.75,
+      "verdict": "iyi",
+      "issue": "Tek doğru karar. Ama bütçenin yalnızca %20'si."
+    }
+  ],
+  "products": [
+    { "id": "P001", "title": "Okul Çantası Unisex Sırt Çantası 25L", "category": "kirtasiye", "price": 449, "cost": 230, "stock": 120, "views30d": 4200, "sales30d": 138, "rating": 4.4, "reviewCount": 312 },
+    { "id": "P002", "title": "İlkokul Çantası Kız Çocuk Tekerlekli", "category": "kirtasiye", "price": 699, "cost": 360, "stock": 45, "views30d": 2900, "sales30d": 86, "rating": 4.6, "reviewCount": 201 },
+    { "id": "P003", "title": "Suluk 750ml Spor Şişesi BPA Free", "category": "kirtasiye", "price": 129, "cost": 48, "stock": 540, "views30d": 1800, "sales30d": 220, "rating": 4.3, "reviewCount": 1042 },
+    { "id": "P004", "title": "Beslenme Çantası Termal İzole", "category": "kirtasiye", "price": 199, "cost": 78, "stock": 310, "views30d": 1450, "sales30d": 102, "rating": 4.2, "reviewCount": 488 },
+    { "id": "P005", "title": "Kalem Kutusu 3 Bölmeli Magnetik", "category": "kirtasiye", "price": 159, "cost": 55, "stock": 600, "views30d": 1200, "sales30d": 145, "rating": 4.5, "reviewCount": 712 },
+    { "id": "P006", "title": "Sulu Boya Seti 24 Renk Fırça Hediyeli", "category": "kirtasiye", "price": 189, "cost": 72, "stock": 280, "views30d": 2200, "sales30d": 168, "rating": 4.6, "reviewCount": 622 },
+    { "id": "P007", "title": "Kuru Boya Seti 36 Renk Metal Kutu", "category": "kirtasiye", "price": 249, "cost": 95, "stock": 220, "views30d": 1900, "sales30d": 142, "rating": 4.5, "reviewCount": 488 },
+    { "id": "P008", "title": "Tükenmez Kalem Mavi 12'li Paket", "category": "kirtasiye", "price": 89, "cost": 32, "stock": 1200, "views30d": 900, "sales30d": 188, "rating": 4.3, "reviewCount": 312 },
+    { "id": "P009", "title": "Defter 80 Yaprak Çizgili 5'li Set", "category": "kirtasiye", "price": 149, "cost": 62, "stock": 480, "views30d": 1400, "sales30d": 102, "rating": 4.4, "reviewCount": 244 },
+    { "id": "P010", "title": "Matematik Pergel Seti Akademik", "category": "kirtasiye", "price": 179, "cost": 65, "stock": 180, "views30d": 800, "sales30d": 54, "rating": 4.5, "reviewCount": 144 },
+    { "id": "P011", "title": "Eşofman Çantası Spor Sırt Çantası 35L", "category": "kirtasiye", "price": 379, "cost": 165, "stock": 95, "views30d": 1100, "sales30d": 48, "rating": 4.2, "reviewCount": 122 },
+    { "id": "P012", "title": "Anaokulu Çantası Hayvan Figürlü", "category": "kirtasiye", "price": 349, "cost": 145, "stock": 80, "views30d": 2400, "sales30d": 72, "rating": 4.6, "reviewCount": 244 },
+    { "id": "P013", "title": "Silgi Çok Renkli 10'lu Paket", "category": "kirtasiye", "price": 59, "cost": 22, "stock": 800, "views30d": 600, "sales30d": 144, "rating": 4.3, "reviewCount": 412 },
+    { "id": "P014", "title": "Kalemtraş Çift Delikli Hazneli", "category": "kirtasiye", "price": 39, "cost": 14, "stock": 1500, "views30d": 500, "sales30d": 168, "rating": 4.4, "reviewCount": 288 },
+    { "id": "P015", "title": "Resim Defteri A4 30 Yaprak Spiralli", "category": "kirtasiye", "price": 79, "cost": 30, "stock": 420, "views30d": 700, "sales30d": 92, "rating": 4.3, "reviewCount": 188 }
+  ]
+}

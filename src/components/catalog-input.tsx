@@ -10,7 +10,14 @@ interface Props {
   catalog: Product[];
   onChange: (next: Product[]) => void;
   onLoadDemo: () => void;
+  onLoadAhmetDemo?: () => void;
   onClear: () => void;
+  persona?: {
+    name: string;
+    shopName: string;
+    city: string;
+    tagline: string;
+  };
 }
 
 const CATEGORIES: Category[] = [
@@ -122,7 +129,9 @@ export function CatalogInput({
   catalog,
   onChange,
   onLoadDemo,
+  onLoadAhmetDemo,
   onClear,
+  persona,
 }: Props) {
   const [draft, setDraft] = useState<DraftState>(EMPTY_DRAFT);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -180,14 +189,31 @@ export function CatalogInput({
     <div className="glass rounded-2xl p-5 md:p-6 space-y-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h3 className="text-lg font-semibold">Ürün kataloğu</h3>
-          <p className="text-sm text-muted">
-            {catalog.length === 0
-              ? "Hızlı bir ürün ekle ya da örnek katalogla başla."
-              : `${fmtNum(catalog.length)} ürün yüklü.`}
-          </p>
+          {persona ? (
+            <>
+              <h3 className="text-lg font-semibold">
+                {persona.shopName} <span className="text-muted text-sm">· {persona.city}</span>
+              </h3>
+              <p className="text-sm text-muted max-w-2xl">{persona.tagline}</p>
+            </>
+          ) : (
+            <>
+              <h3 className="text-lg font-semibold">Ürün kataloğu</h3>
+              <p className="text-sm text-muted">
+                {catalog.length === 0
+                  ? "Hızlı bir ürün ekle, örnek kataloğu kullan veya gerçek bir satıcı senaryosunu dene."
+                  : `${fmtNum(catalog.length)} ürün yüklü.`}
+              </p>
+            </>
+          )}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {onLoadAhmetDemo && (
+            <Button variant="outline" onClick={onLoadAhmetDemo}>
+              <Sparkles className="size-4" />
+              Ahmet Abi (gerçek senaryo)
+            </Button>
+          )}
           <Button variant="outline" onClick={onLoadDemo}>
             <Sparkles className="size-4" />
             Örnek Katalog

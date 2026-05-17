@@ -3,17 +3,19 @@ import { budgetPlanSchema } from "@/lib/gemini/schemas";
 import {
   GeminiBudgetResponseSchema,
   type BudgetPlanResponse,
+  type CurrentCampaign,
   type Product,
 } from "@/contracts";
 import { TOP_KEYWORDS } from "@/lib/mock-data";
 import { getLiveCategoryTrends } from "@/features/trends/server";
 import { buildBudgetPrompt } from "./prompt";
-import { computeAllocation } from "./math";
+import { computeAllocation, computeOpportunityCost } from "./math";
 
 export async function generateBudgetPlan(
   products: Product[],
   totalBudget: number,
-  suggestedKeywords: string[] = []
+  suggestedKeywords: string[] = [],
+  currentCampaigns?: CurrentCampaign[]
 ): Promise<BudgetPlanResponse> {
   const trendData = await getLiveCategoryTrends();
 
@@ -51,6 +53,15 @@ export async function generateBudgetPlan(
   const expectedRoi =
     actualBudget > 0 ? expectedTotalProfit / actualBudget : 0;
 
+  const opportunityCost =
+    currentCampaigns && currentCampaigns.length > 0
+      ? computeOpportunityCost(currentCampaigns, {
+          expectedRevenue: expectedTotalRevenue,
+          expectedProfit: expectedTotalProfit,
+          totalBudget: actualBudget || totalBudget,
+        })
+      : undefined;
+
   return {
     totalBudget: actualBudget || totalBudget,
     expectedTotalRevenue,
@@ -60,5 +71,6 @@ export async function generateBudgetPlan(
     summary: data.summary,
     trendSource: trendData.source,
     trendsFetchedAt: trendData.fetchedAt,
+    opportunityCost,
   };
 }
