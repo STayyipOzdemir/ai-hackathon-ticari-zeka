@@ -119,7 +119,10 @@ export default function DashboardPage() {
             persona={persona}
           />
 
-          {persona && currentCampaigns && (
+          {persona &&
+            currentCampaigns &&
+            typeof persona.currentRoas === "number" &&
+            typeof persona.currentMarginRate === "number" && (
             <div className={`glass rounded-2xl p-5 ${persona.monthlyAdNetProfit < 0 ? "border-danger/40" : "border-accent/30"}`}>
               <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-accent">
                 <span>{persona.monthlyAdNetProfit < 0 ? "⚠ " : ""}Ahmet abinin geçen ay reklamı — ÖZET</span>
@@ -188,7 +191,7 @@ export default function DashboardPage() {
                           {fmtTRY(c.revenue)}
                         </td>
                         <td className="px-3 py-2.5 text-right tabular-nums text-muted">
-                          {c.roas.toFixed(2)}×
+                          {typeof c.roas === "number" ? c.roas.toFixed(2) : "—"}×
                         </td>
                         <td
                           className={`px-3 py-2.5 text-right font-semibold tabular-nums ${

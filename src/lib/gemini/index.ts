@@ -24,6 +24,7 @@ export class GeminiError extends Error {
     public readonly code:
       | "missing-key"
       | "rate-limit"
+      | "overloaded"
       | "invalid-response"
       | "network"
       | "unknown",
@@ -95,6 +96,18 @@ export async function generate<T>(options: GenerateOptions<T>): Promise<T> {
           err
         );
       }
+      if (
+        msg.includes("503") ||
+        msg.includes("UNAVAILABLE") ||
+        msg.includes("high demand") ||
+        msg.includes("overloaded")
+      ) {
+        throw new GeminiError(
+          "Gemini şu an yoğun (503). Otomatik yeniden deniyoruz...",
+          "overloaded",
+          err
+        );
+      }
       throw new GeminiError(`Gemini'ye erişilemedi: ${msg}`, "network", err);
     }
 
@@ -128,6 +141,26 @@ export async function generate<T>(options: GenerateOptions<T>): Promise<T> {
       err.code === "invalid-response"
     ) {
       return await run();
+    }
+    if (err instanceof GeminiError && err.code === "overloaded") {
+      for (const delay of [1200, 3500]) {
+        await new Promise((r) => setTimeout(r, delay));
+        try {
+          return await run();
+        } catch (retryErr) {
+          if (
+            !(retryErr instanceof GeminiError) ||
+            retryErr.code !== "overloaded"
+          ) {
+            throw retryErr;
+          }
+        }
+      }
+      throw new GeminiError(
+        "Gemini şu an yoğun, lütfen 1 dakika sonra tekrar dene.",
+        "overloaded",
+        err.cause
+      );
     }
     throw err;
   }

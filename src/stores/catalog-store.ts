@@ -63,6 +63,12 @@ export const useCatalogStore = create<CatalogState>()(
     {
       name: "ticari-zeka:catalog",
       storage: createJSONStorage(() => localStorage),
+      version: 2,
+      migrate: () => ({
+        catalog: [],
+        persona: undefined,
+        currentCampaigns: undefined,
+      }),
     }
   )
 );
