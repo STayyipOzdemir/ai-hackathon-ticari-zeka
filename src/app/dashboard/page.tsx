@@ -225,8 +225,8 @@ export default function DashboardPage() {
               </div>
               <p className="mt-3 text-xs text-muted">
                 Net kâr = (ciro × {Math.round(persona.currentMarginRate * 100)}% marj) − reklam.
-                3 kelimede zarar, sadece "boya kalemi" kâra geçiyor. Mor butona bas, Gemini'nin
-                bu durumu nasıl tersine çevireceğini görelim.
+                1 kelime zararda, kalan 3 kelime kârda. Mor butona bas — Gemini zararı kessin
+                ve yıldız kelimelerin bütçesini büyütsün.
               </p>
             </div>
           )}

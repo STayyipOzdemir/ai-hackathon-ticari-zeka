@@ -5,10 +5,10 @@
     "city": "Bursa",
     "monthlyRevenue": 84000,
     "monthlyAdSpend": 8000,
-    "monthlyAdRevenue": 12300,
-    "monthlyAdGrossProfit": 5535,
-    "monthlyAdNetProfit": -2465,
-    "currentRoas": 1.54,
+    "monthlyAdRevenue": 22000,
+    "monthlyAdGrossProfit": 9900,
+    "monthlyAdNetProfit": 1900,
+    "currentRoas": 2.75,
     "currentMarginRate": 0.45,
     "tagline": "12 yıllık küçük dükkân, 2 yıl önce Trendyol'a açıldı. 487 ürün, kendi yönetiyor."
   },
@@ -17,45 +17,45 @@
       "keyword": "kırtasiye malzemeleri",
       "spent": 2400,
       "clicks": 320,
-      "revenue": 1800,
-      "grossProfit": 810,
-      "netProfit": -1590,
-      "roas": 0.75,
+      "revenue": 4600,
+      "grossProfit": 2070,
+      "netProfit": -330,
+      "roas": 1.92,
       "verdict": "zarar",
-      "issue": "Çok geniş + yüksek rekabet. Bu hafta WoW -%18, daha da düşüyor."
+      "issue": "Çok geniş + yüksek rekabet. Marj sonrası net negatif — Gemini'nin kesmesi gereken kelime."
     },
     {
       "keyword": "kalem seti",
       "spent": 1800,
       "clicks": 240,
-      "revenue": 2900,
-      "grossProfit": 1305,
-      "netProfit": -495,
-      "roas": 1.61,
-      "verdict": "zarar",
-      "issue": "ROAS yüksek görünüyor ama %45 marjla reklam kendini kurtaramıyor."
+      "revenue": 5400,
+      "grossProfit": 2430,
+      "netProfit": 630,
+      "roas": 3.0,
+      "verdict": "iyi",
+      "issue": "Sağlam kâr, sürdürülebilir. Bütçeyi yumuşak artırılabilir."
     },
     {
       "keyword": "defter",
       "spent": 2200,
       "clicks": 410,
-      "revenue": 3200,
-      "grossProfit": 1440,
-      "netProfit": -760,
-      "roas": 1.45,
-      "verdict": "zarar",
-      "issue": "Mevsim dışı, yaz sonu. Okula geri sayım başlamadan harcama erken."
+      "revenue": 5200,
+      "grossProfit": 2340,
+      "netProfit": 140,
+      "roas": 2.36,
+      "verdict": "iyi",
+      "issue": "Marj dar — net kâr ince. Ölçek artırırken dikkat, mevsim ile birlikte değerlendir."
     },
     {
       "keyword": "boya kalemi",
       "spent": 1600,
       "clicks": 180,
-      "revenue": 4400,
-      "grossProfit": 1980,
-      "netProfit": 380,
-      "roas": 2.75,
+      "revenue": 6800,
+      "grossProfit": 3060,
+      "netProfit": 1460,
+      "roas": 4.25,
       "verdict": "iyi",
-      "issue": "Tek pozitif net kâr. Ama bütçenin sadece %20'si bu kelimede."
+      "issue": "Yıldız ürün. Bütçenin sadece %20'sini alıyor — Gemini büyütmeyi önerecek."
     }
   ],
   "products": [
